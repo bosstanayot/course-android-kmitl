@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.List;
+
 import kmitl.lab03.tanayot.SimpleMyDot.model.Dot;
 
 /**
@@ -16,14 +18,16 @@ import kmitl.lab03.tanayot.SimpleMyDot.model.Dot;
 
 public class DotView extends View {
     private Paint paint;
-    private Dot dot;
+    private List<Dot> allDots;
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(dot != null){
-            paint.setColor(Color.RED);
-            canvas.drawCircle(this.dot.getCenterX(),this.dot.getCenterY(),this.dot.getRadius(),paint);
+        if(allDots != null){
+            for(int i = 0; i < allDots.size();i++){
+                paint.setColor(Color.parseColor(this.allDots.get(i).getColor()));
+                canvas.drawCircle(this.allDots.get(i).getCenterX(),this.allDots.get(i).getCenterY(),this.allDots.get(i).getRadius(),paint);
+            }
         }
 
     }
@@ -44,7 +48,7 @@ public class DotView extends View {
     }
 
 
-    public void setDot(Dot dot) {
-        this.dot = dot;
+    public void setDot(List allDots) {
+        this.allDots = allDots;
     }
 }
