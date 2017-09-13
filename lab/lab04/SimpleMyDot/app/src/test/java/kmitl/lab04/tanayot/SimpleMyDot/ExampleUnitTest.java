@@ -1,4 +1,4 @@
-package kmitl.lab03.tanayot.SimpleMyDot;
+package kmitl.lab04.tanayot.SimpleMyDot;
 
 import org.junit.Test;
 

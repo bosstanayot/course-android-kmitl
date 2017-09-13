@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
-import kmitl.lab03.tanayot.SimpleMyDot.R;
+import kmitl.lab04.tanayot.SimpleMyDot.R;
 import kmitl.lab04.tanayot.SimpleMyDot.model.DotParcelable;
 
 public class EditActivity extends AppCompatActivity {

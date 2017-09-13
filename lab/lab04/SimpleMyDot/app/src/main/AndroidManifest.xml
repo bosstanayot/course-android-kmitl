@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="kmitl.lab03.tanayot.SimpleMyDot">
+    package="kmitl.lab04.tanayot.SimpleMyDot">
 
     <provider
         android:name="com.facebook.FacebookContentProvider"
@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="kmitl.lab03.tanayot.SimpleMyDot.fileprovider"
+            android:authorities="kmitl.lab04.tanayot.SimpleMyDot.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -19,7 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
-import kmitl.lab03.tanayot.SimpleMyDot.R;
+import kmitl.lab04.tanayot.SimpleMyDot.R;
 import kmitl.lab04.tanayot.SimpleMyDot.model.Dot;
 import kmitl.lab04.tanayot.SimpleMyDot.model.DotParcelable;
 import kmitl.lab04.tanayot.SimpleMyDot.model.Dots;

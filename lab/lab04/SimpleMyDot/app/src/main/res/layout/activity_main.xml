@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kmitl.lab03.tanayot.SimpleMyDot.kmitl.lab04.tanayot.SimpleMyDot.control.MainActivity">
+    tools:context="kmitl.lab04.tanayot.SimpleMyDot.kmitl.lab04.tanayot.SimpleMyDot.control.MainActivity">
     <kmitl.lab04.tanayot.SimpleMyDot.view.DotView
         android:id="@+id/dotView"
         android:layout_height="0dp"
