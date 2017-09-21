@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -28,21 +28,33 @@ public class EditActivity extends AppCompatActivity {
         setTitle("Edit Dot");
         alertDialog();
     }
+
     public void alertDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
-        alertDialogBuilder.setTitle("What you want to edit?");
+        alertDialogBuilder.setTitle("Choose your way...");
         alertDialogBuilder
                 .setMessage("")
                 .setCancelable(false)
-                .setPositiveButton("Color", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                .setPositiveButton("Edit Color", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                         colorPicker();
                     }
                 })
-                .setNegativeButton("Size", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                .setNegativeButton("Edit Size", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                         showSeekBar();
+                    }
+                })
+                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        final DotParcelable dotParcelable = getIntent().getParcelableExtra("dotParcelable");
+                        Intent returnIntent = new Intent(EditActivity.this, MainActivity.class);
+                        returnIntent.putExtra("reDotParcelable", dotParcelable);
+                        setResult(2, returnIntent);
+                        finish();
                     }
                 });
 
@@ -64,9 +76,8 @@ public class EditActivity extends AppCompatActivity {
                 Intent returnIntent = new Intent(EditActivity.this, MainActivity.class);
                 returnIntent.putExtra("reDotParcelable", reDotParcelable);
                 setResult(Activity.RESULT_OK, returnIntent);
-                finish();
                 cp.cancel();
-                Toast.makeText(getApplicationContext(), "Edited", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
@@ -106,15 +117,13 @@ public class EditActivity extends AppCompatActivity {
         linear.addView(seek);
         alert.setView(linear);
 
-
-        alert.setPositiveButton("APPLY", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 final DotParcelable reDotParcelable = new DotParcelable(dotParcelable.getDotPosition());
                 reDotParcelable.setRadius(seek.getProgress());
                 Intent returnIntent = new Intent(EditActivity.this, MainActivity.class);
                 returnIntent.putExtra("reDotParcelable", reDotParcelable);
                 setResult(2, returnIntent);
-                Toast.makeText(getApplicationContext(), "Edited", Toast.LENGTH_LONG).show();
                 finish();
             }
         });
