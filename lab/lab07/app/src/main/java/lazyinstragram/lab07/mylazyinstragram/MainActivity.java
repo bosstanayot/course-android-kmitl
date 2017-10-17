@@ -1,12 +1,18 @@
 package lazyinstragram.lab07.mylazyinstragram;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -22,17 +28,41 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+    private Spinner userSpinner;
+    Context context = this;
+    private String userselect;
+    private String type = "grid";
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getUserProfile("cartoon");
-        PostAdapter postAdapter = new PostAdapter(this);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,3));
-        recyclerView.setAdapter(postAdapter);
+        userSpinner = (Spinner)findViewById(R.id.spinner);
+
+        final String[] user = getResources().getStringArray(R.array.user);
+        ArrayAdapter<String> adapterUser = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item    , user);
+        userSpinner.setAdapter(adapterUser);
+        userSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                userselect = user[position];
+                Toast.makeText(MainActivity.this,userselect,Toast.LENGTH_SHORT).show();
+                getUserProfile(userselect);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
     }
 
     private void getUserProfile(String usrName){
@@ -69,6 +99,17 @@ public class MainActivity extends AppCompatActivity {
 
                     ImageView imageProfile = (ImageView) findViewById(R.id.imageProfile);
                     Glide.with(MainActivity.this).load(userProfile.getUrlProfile()).into(imageProfile);
+
+                    PostAdapter postAdapter = new PostAdapter(context,userProfile);
+                    postAdapter.setType(type);
+                    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list);
+                    if(type.equals("grid")){
+                        recyclerView.setLayoutManager(new GridLayoutManager(context,3));
+                    }
+                    else if(type.equals("list")){
+                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    }
+                    recyclerView.setAdapter(postAdapter);
                 }
             }
 
@@ -78,5 +119,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void onGrid(View view) {
+
+       type = "grid";
+        getUserProfile(userselect);
+
+    }
+
+    public void onList(View view) {
+
+        type = "list";
+        getUserProfile(userselect);
     }
 }

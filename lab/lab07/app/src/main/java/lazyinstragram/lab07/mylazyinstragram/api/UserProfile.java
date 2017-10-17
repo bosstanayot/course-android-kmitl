@@ -11,6 +11,18 @@ public class UserProfile {
     private String bio;
     private String following;
 
+    public Posts[] getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Posts[] posts) {
+        this.posts = posts;
+    }
+
+    private Posts [] posts;
+
+
+
     public String getUrlProfile() {
         return urlProfile;
     }
