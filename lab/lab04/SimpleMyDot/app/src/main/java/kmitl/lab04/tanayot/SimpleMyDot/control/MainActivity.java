@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity  implements Dots.OnDotsChang
         saveBitmap(b);
         File imagePath = new File(this.getCacheDir(), "images");
         File newFile = new File(imagePath, "image.png");
-        Uri contentUri = FileProvider.getUriForFile(this, "kmitl.lab03.tanayot.SimpleMyDot.fileprovider", newFile);
+        Uri contentUri = FileProvider.getUriForFile(this, "kmitl.lab04.tanayot.SimpleMyDot.fileprovider", newFile);
         if (contentUri != null) {
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
