@@ -2,10 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kmitl.lab04.tanayot.SimpleMyDot">
 
-    <provider
-        android:name="com.facebook.FacebookContentProvider"
-        android:authorities="com.facebook.app.FacebookContentProvider194182567748739"
-        android:exported="true" />
 
     <application
         android:allowBackup="true"
