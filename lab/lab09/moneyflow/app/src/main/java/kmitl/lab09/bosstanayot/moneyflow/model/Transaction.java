@@ -12,19 +12,19 @@ public class Transaction implements Parcelable {
     private int id;
 
     private String type;
-    private String desc;
+    private String describe;
     private int amount;
 
-    public Transaction(String type, String desc, int amount) {
+    public Transaction(String type, String describe, int amount) {
         this.type = type;
-        this.desc = desc;
+        this.describe = describe;
         this.amount = amount;
     }
 
     protected Transaction(Parcel in) {
         id = in.readInt();
         type = in.readString();
-        desc = in.readString();
+        describe = in.readString();
         amount = in.readInt();
     }
 
@@ -32,7 +32,7 @@ public class Transaction implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(type);
-        dest.writeString(desc);
+        dest.writeString(describe);
         dest.writeInt(amount);
     }
 
@@ -69,12 +69,12 @@ public class Transaction implements Parcelable {
         this.type = type;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescribe() {
+        return describe;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 
     public int getAmount() {
@@ -87,7 +87,7 @@ public class Transaction implements Parcelable {
 
     public void updateInfo(Transaction transaction) {
         this.type = transaction.getType();
-        this.desc = transaction.getDesc();
+        this.describe = transaction.getDescribe();
         this.amount = transaction.getAmount();
     }
 }

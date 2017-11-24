@@ -5,28 +5,28 @@ import android.arch.persistence.room.ColumnInfo;
 public class Summary {
 
     @ColumnInfo(name = "total_income")
-    private int inCome;
+    private int totalIncome;
 
     @ColumnInfo(name = "total_outcome")
-    private int outCome;
+    private int totalOutcome;
 
-    public int getInCome() {
-        return inCome;
+    public int getTotalIncome() {
+        return totalIncome;
     }
 
-    public void setInCome(int inCome) {
-        this.inCome = inCome;
+    public void setTotalIncome(int totalIncome) {
+        this.totalIncome = totalIncome;
     }
 
-    public int getOutCome() {
-        return outCome;
+    public int getTotalOutcome() {
+        return totalOutcome;
     }
 
-    public void setOutCome(int outCome) {
-        this.outCome = outCome;
+    public void setTotalOutcome(int totalOutcome) {
+        this.totalOutcome = totalOutcome;
     }
 
     public int getSum() {
-        return inCome - outCome;
+        return totalIncome - totalOutcome;
     }
 }

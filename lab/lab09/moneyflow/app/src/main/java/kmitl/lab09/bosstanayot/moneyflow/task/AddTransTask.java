@@ -7,18 +7,18 @@ import kmitl.lab09.bosstanayot.moneyflow.model.Transaction;
 
 public class AddTransTask extends AsyncTask<Transaction, Void, Void> {
 
-    private MoneyFlowDB db;
+    private MoneyFlowDB database;
     private OnAddSuccessListener listener;
 
     public AddTransTask(MoneyFlowDB db, OnAddSuccessListener l) {
-        this.db = db;
+        this.database = db;
         this.listener = l;
     }
 
     @Override
     protected Void doInBackground(Transaction... transactions) {
         for (int i = 0; i < transactions.length; i++) {
-            db.transactionDAO().insert(transactions[i]);
+            database.transactionDAO().insert(transactions[i]);
         }
         return null;
     }

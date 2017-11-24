@@ -7,18 +7,18 @@ import kmitl.lab09.bosstanayot.moneyflow.model.Transaction;
 
 public class DeleteTransTask extends AsyncTask<Transaction, Void, Void> {
 
-    private MoneyFlowDB db;
+    private MoneyFlowDB database;
     private OnDeleteSuccessListener listener;
 
     public DeleteTransTask(MoneyFlowDB db, OnDeleteSuccessListener l) {
-        this.db = db;
+        this.database = db;
         this.listener = l;
     }
 
     @Override
     protected Void doInBackground(Transaction... transactions) {
         for (int i = 0; i < transactions.length; i++) {
-            db.transactionDAO().delete(transactions[i]);
+            database.transactionDAO().delete(transactions[i]);
         }
         return null;
     }

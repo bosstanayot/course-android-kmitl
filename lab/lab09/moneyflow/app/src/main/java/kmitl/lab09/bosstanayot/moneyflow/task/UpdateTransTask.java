@@ -7,18 +7,18 @@ import kmitl.lab09.bosstanayot.moneyflow.model.Transaction;
 
 public class UpdateTransTask extends AsyncTask<Transaction, Void, Void> {
 
-    private MoneyFlowDB db;
+    private MoneyFlowDB database;
     private OnUpdateSuccessListener listener;
 
     public UpdateTransTask(MoneyFlowDB db, OnUpdateSuccessListener l) {
-        this.db = db;
+        this.database = db;
         this.listener = l;
     }
 
     @Override
     protected Void doInBackground(Transaction... transactions) {
         for (int i = 0; i < transactions.length; i++) {
-            db.transactionDAO().update(transactions[i]);
+            database.transactionDAO().update(transactions[i]);
         }
         return null;
     }

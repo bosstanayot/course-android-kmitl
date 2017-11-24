@@ -25,24 +25,33 @@ import kmitl.lab09.bosstanayot.moneyflow.task.SummaryTransTask;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MoneyFlowDB db;
+    private MoneyFlowDB database;
 
-    private TextView moneytxt;
+    private TextView textMoney;
     private RecyclerView list;
     private TransactionAdapter adapter;
-    private Button addbtn;
+    private Button btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = Room.databaseBuilder(getApplicationContext(), MoneyFlowDB.class, "DB")
-                .fallbackToDestructiveMigration()
-                .build();
-        moneytxt = findViewById(R.id.moneytxt);
+        initInstances();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchData();
+    }
+
+    private void initInstances() {
+        initDB();
+
+        textMoney = findViewById(R.id.textMoney);
         list = findViewById(R.id.list);
-        addbtn = findViewById(R.id.addbtn);
+        btnAdd = findViewById(R.id.btnAdd);
 
         adapter = new TransactionAdapter(this);
         list.setLayoutManager(new LinearLayoutManager(this));
@@ -60,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }));
 
-        addbtn.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startTransactionActivity(null);
@@ -68,24 +77,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        new FetchTransTask(db, new FetchTransTask.OnFetchSuccessListener() {
-            @Override
-            public void onFetchSuccess(List<Transaction> transactionList) {
-                updateList(transactionList);
-            }
-        }).execute();
-
-        new SummaryTransTask(db, new SummaryTransTask.OnSummarySuccessListener() {
-            @Override
-            public void onSummarySuccess(Summary summary) {
-                updateMoney(summary);
-            }
-        }).execute();
+    private void initDB() {
+        database = Room.databaseBuilder(getApplicationContext(), MoneyFlowDB.class, "DB")
+                .fallbackToDestructiveMigration()
+                .build();
     }
-
 
     private void startTransactionActivity(@Nullable Transaction transaction) {
         Intent intent = new Intent(MainActivity.this, TransactionActivity.class);
@@ -93,6 +89,21 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void fetchData() {
+        new FetchTransTask(database, new FetchTransTask.OnFetchSuccessListener() {
+            @Override
+            public void onFetchSuccess(List<Transaction> transactionList) {
+                updateList(transactionList);
+            }
+        }).execute();
+
+        new SummaryTransTask(database, new SummaryTransTask.OnSummarySuccessListener() {
+            @Override
+            public void onSummarySuccess(Summary summary) {
+                updateMoney(summary);
+            }
+        }).execute();
+    }
 
     private void updateList(List<Transaction> transactionList) {
         if (transactionList.size() == 0) {
@@ -106,15 +117,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateMoney(Summary summary) {
         int sum = summary.getSum();
-        int totalIncome = summary.getInCome();
+        int totalIncome = summary.getTotalIncome();
 
         if ((float) sum / totalIncome <= 0.25) {
-            moneytxt.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_light));
+            textMoney.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_light));
         } else if ((float) sum / totalIncome <= 0.5) {
-            moneytxt.setTextColor(ContextCompat.getColor(this, android.R.color.holo_orange_light));
+            textMoney.setTextColor(ContextCompat.getColor(this, android.R.color.holo_orange_light));
         } else {
-            moneytxt.setTextColor(ContextCompat.getColor(this, android.R.color.holo_green_light));
+            textMoney.setTextColor(ContextCompat.getColor(this, android.R.color.holo_green_light));
         }
-        moneytxt.setText(NumberFormat.getNumberInstance().format(sum));
+        textMoney.setText(NumberFormat.getNumberInstance().format(sum));
     }
 }

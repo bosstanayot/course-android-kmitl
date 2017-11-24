@@ -8,7 +8,7 @@
     android:padding="16dp"
     tools:context="kmitl.lab09.bosstanayot.moneyflow.TransactionActivity">
 
-    <TextView
+    <kmitl.lab09.bosstanayot.moneyflow.init.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -18,7 +18,7 @@
         android:textStyle="bold" />
 
     <RadioGroup
-        android:id="@+id/radio"
+        android:id="@+id/radioType"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -49,7 +49,7 @@
         android:layout_gravity="center">
 
         <EditText
-            android:id="@+id/moneyTitle"
+            android:id="@+id/etDescribe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="รายการ"
@@ -63,7 +63,7 @@
         android:layout_gravity="center">
 
         <EditText
-            android:id="@+id/money_amt"
+            android:id="@+id/etAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="จำนวนเงิน"
@@ -80,14 +80,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/delbtn"
+            android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:text="ลบ" />
 
         <Button
-            android:id="@+id/savbtn"
+            android:id="@+id/btnSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="บันทึก" />
