@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -13,9 +14,8 @@ import java.util.List;
 
 import kmitl.lab09.bosstanayot.moneyflow.R;
 import kmitl.lab09.bosstanayot.moneyflow.model.Transaction;
-import kmitl.lab09.bosstanayot.moneyflow.adapter.holder.TransactionHolder;
 
-public class TransactionAdapter extends RecyclerView.Adapter<TransactionHolder> {
+public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionHolder> {
 
     private Context context;
     private List<Transaction> transactionList;
@@ -36,21 +36,21 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionHolder> 
         Transaction transaction = transactionList.get(position);
 
         if (transaction.getType().equals(context.getString(R.string.type_income))) {
-            holder.rootLayout.setBackgroundResource(R.color.itemDefault);
+            holder.linear_layout.setBackgroundResource(R.color.itemDefault);
         } else {
-            holder.rootLayout.setBackgroundResource(R.color.itemHighlight);
+            holder.linear_layout.setBackgroundResource(R.color.itemHighlight);
         }
 
         if (transaction.getType().equals(context.getString(R.string.type_income))) {
-            holder.sign.setText("+");
-            holder.sign.setTextColor(Color.parseColor("#000000"));
+            holder.plus.setText("+");
+            holder.plus.setTextColor(Color.parseColor("#000000"));
         } else if (transaction.getType().equals(context.getString(R.string.type_outcome))) {
-            holder.sign.setText("-");
-            holder.sign.setTextColor(Color.parseColor("#000000"));
+            holder.plus.setText("-");
+            holder.plus.setTextColor(Color.parseColor("#000000"));
         }
 
-        holder.textDesribe.setText(transaction.getDescribe());
-        holder.textAmount.setText(NumberFormat.getNumberInstance().format(transaction.getAmount()));
+        holder.desctext.setText(transaction.getDesc());
+        holder.amounttxt.setText(NumberFormat.getNumberInstance().format(transaction.getAmount()));
     }
 
     @Override
@@ -64,5 +64,18 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionHolder> 
 
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
+    }
+
+    public class TransactionHolder extends RecyclerView.ViewHolder {
+        public View linear_layout;
+        public TextView plus, desctext, amounttxt;
+        public TransactionHolder(View itemView) {
+            super(itemView);
+
+            linear_layout = itemView.findViewById(R.id.linear_Layout);
+            plus = itemView.findViewById(R.id.plus);
+            desctext = itemView.findViewById(R.id.desc);
+            amounttxt = itemView.findViewById(R.id.amount);
+        }
     }
 }

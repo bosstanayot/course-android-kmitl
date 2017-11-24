@@ -17,59 +17,46 @@ import kmitl.lab09.bosstanayot.moneyflow.task.UpdateTransTask;
 
 public class TransactionActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private MoneyFlowDB database;
-    private Transaction mTransaction;
+    private MoneyFlowDB db;
+    private Transaction transaction;
 
-    private RadioGroup radioType;
-    private EditText etDescribe, etAmount;
-    private Button btnSave, btnDelete;
+    private RadioGroup radio;
+    private EditText moneyTitle, money_amt;
+    private Button savebtn, delbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
-
-        initInstances();
-    }
-
-    private void initInstances() {
-        initDB();
-
-        radioType = findViewById(R.id.radioType);
-        etDescribe = findViewById(R.id.etDescribe);
-        etAmount = findViewById(R.id.etAmount);
-        btnSave = findViewById(R.id.btnSave);
-        btnDelete = findViewById(R.id.btnDelete);
-
-        radioType.check(R.id.income); // default
-        btnSave.setOnClickListener(this);
-        btnDelete.setOnClickListener(this);
-
-        mTransaction = getIntent().getParcelableExtra(Transaction.class.getSimpleName());
-
-        setupInfo();
-    }
-
-    private void initDB() {
-        database = Room.databaseBuilder(getApplicationContext(), MoneyFlowDB.class, "DB")
+        db = Room.databaseBuilder(getApplicationContext(), MoneyFlowDB.class, "DB")
                 .fallbackToDestructiveMigration()
                 .build();
-    }
 
-    private void setupInfo() {
-        if (mTransaction != null) {
+        radio = findViewById(R.id.radio);
+        moneyTitle = findViewById(R.id.moneyTitle);
+        money_amt = findViewById(R.id.money_amt);
+        savebtn = findViewById(R.id.savbtn);
+        delbtn = findViewById(R.id.delbtn);
+
+        radio.check(R.id.income);
+        savebtn.setOnClickListener(this);
+        delbtn.setOnClickListener(this);
+
+        transaction = getIntent().getParcelableExtra(Transaction.class.getSimpleName());
+
+        if (transaction != null) {
             setTitle(getString(R.string.title_edit));
-            if (mTransaction.getType().equals(getString(R.string.type_income))) {
-                radioType.check(R.id.income);
+            if (transaction.getType().equals(getString(R.string.type_income))) {
+                radio.check(R.id.income);
             } else {
-                radioType.check(R.id.outcome);
+                radio.check(R.id.outcome);
             }
-            etDescribe.setText(mTransaction.getDescribe());
-            etAmount.setText(String.valueOf(mTransaction.getAmount()));
-            btnDelete.setVisibility(View.VISIBLE);
+            moneyTitle.setText(transaction.getDesc());
+            money_amt.setText(String.valueOf(transaction.getAmount()));
+            delbtn.setVisibility(View.VISIBLE);
         } else {
             setTitle(getString(R.string.title_add));
-            btnDelete.setVisibility(View.GONE);
+            delbtn.setVisibility(View.GONE);
         }
     }
 
@@ -78,7 +65,7 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
         String describe;
         int amount;
 
-        switch (radioType.getCheckedRadioButtonId()) {
+        switch (radio.getCheckedRadioButtonId()) {
             case R.id.income:
                 type = getString(R.string.type_income);
                 break;
@@ -89,10 +76,10 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
                 type = "";
         }
 
-        describe = etDescribe.getText().toString();
+        describe = moneyTitle.getText().toString();
 
         try {
-            amount = Integer.parseInt(etAmount.getText().toString());
+            amount = Integer.parseInt(money_amt.getText().toString());
         } catch (IllegalArgumentException ignore) {
             Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
             return;
@@ -100,17 +87,17 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
 
         Transaction transaction = new Transaction(type, describe, amount);
 
-        if (mTransaction != null) {
-            mTransaction.updateInfo(transaction);
-            new UpdateTransTask(database, new UpdateTransTask.OnUpdateSuccessListener() {
+        if (this.transaction != null) {
+            this.transaction.updateInfo(transaction);
+            new UpdateTransTask(db, new UpdateTransTask.OnUpdateSuccessListener() {
                 @Override
                 public void onUpdateSuccess() {
                     finish();
                 }
-            }).execute(mTransaction);
+            }).execute(this.transaction);
 
         } else {
-            new AddTransTask(database, new AddTransTask.OnAddSuccessListener() {
+            new AddTransTask(db, new AddTransTask.OnAddSuccessListener() {
                 @Override
                 public void onAddSuccess() {
                     finish();
@@ -120,19 +107,19 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void delete() {
-        new DeleteTransTask(database, new DeleteTransTask.OnDeleteSuccessListener() {
+        new DeleteTransTask(db, new DeleteTransTask.OnDeleteSuccessListener() {
             @Override
             public void onDeleteSuccess() {
                 finish();
             }
-        }).execute(mTransaction);
+        }).execute(transaction);
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.btnSave) {
+        if (view.getId() == R.id.savbtn) {
             save();
-        } else if (view.getId() == R.id.btnDelete) {
+        } else if (view.getId() == R.id.delbtn) {
             delete();
         }
     }
