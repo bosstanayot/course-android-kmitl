@@ -7,17 +7,17 @@ import kmitl.lab09.bosstanayot.moneyflow.model.Summary;
 
 public class SummaryTransTask extends AsyncTask<Void, Void, Summary> {
 
-    private MoneyFlowDB database;
+    private MoneyFlowDB db;
     private OnSummarySuccessListener listener;
 
     public SummaryTransTask(MoneyFlowDB db, OnSummarySuccessListener l) {
-        this.database = db;
+        this.db = db;
         this.listener = l;
     }
 
     @Override
     protected Summary doInBackground(Void... voids) {
-        return database.transactionDAO().getSummary();
+        return db.transactionDAO().getSummary();
     }
 
     @Override

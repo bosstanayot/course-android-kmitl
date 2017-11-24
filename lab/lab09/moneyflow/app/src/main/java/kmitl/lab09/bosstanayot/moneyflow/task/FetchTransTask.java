@@ -9,17 +9,17 @@ import kmitl.lab09.bosstanayot.moneyflow.model.Transaction;
 
 public class FetchTransTask extends AsyncTask<Void, Void, List<Transaction>> {
 
-    private MoneyFlowDB database;
+    private MoneyFlowDB db;
     private OnFetchSuccessListener listener;
 
     public FetchTransTask(MoneyFlowDB db, OnFetchSuccessListener l) {
-        this.database = db;
+        this.db = db;
         this.listener = l;
     }
 
     @Override
     protected List<Transaction> doInBackground(Void... voids) {
-        return database.transactionDAO().getTransactions();
+        return db.transactionDAO().getTransactions();
     }
 
     @Override
